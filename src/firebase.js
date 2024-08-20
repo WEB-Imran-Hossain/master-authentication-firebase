@@ -5,6 +5,9 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  sendPasswordResetEmail,
+  GoogleAuthProvider,
+  signInWithPopup,
 } from "firebase/auth"; //using for email and password
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -23,6 +26,7 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app); //using for email and password
+const googleAuthProvider = new GoogleAuthProvider();
 
 //using for registration
 const registerWithEmailAndPassword = async (email, password) => {
@@ -47,4 +51,30 @@ const loginWithEmailAndPassword = async (email, password) => {
   }
 };
 
-export { registerWithEmailAndPassword, loginWithEmailAndPassword, auth };
+const sendPasswordReset = async (email) => {
+  // eslint-disable-next-line no-useless-catch
+  try {
+    await sendPasswordResetEmail(auth, email);
+  } catch (error) {
+    throw error;
+  }
+};
+
+//google login
+const signInWithGoogle = async () => {
+  // eslint-disable-next-line no-useless-catch
+  try {
+    const res = await signInWithPopup(auth, googleAuthProvider);
+    const user = res.user;
+    return user;
+  } catch (error) {
+    throw error;
+  }
+};
+export {
+  registerWithEmailAndPassword,
+  loginWithEmailAndPassword,
+  auth,
+  sendPasswordReset,
+  signInWithGoogle,
+};

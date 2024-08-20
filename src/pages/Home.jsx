@@ -21,7 +21,7 @@ const Home = () => {
 
   if (loading) return <p> User info loading....</p>;
 
-  return  (
+  return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50">
       <div className="w-full max-w-md p-8 bg-white shadow-lg rounded-lg text-center">
         <h1 className="text-2xl font-bold text-gray-700 mb-6">
@@ -34,10 +34,7 @@ const Home = () => {
           Logout
         </button>
         <div className="mt-4">
-          <NavLink
-            to="/profile"
-            className="text-blue-600 hover:text-blue-500"
-          >
+          <NavLink to="/profile" className="text-blue-600 hover:text-blue-500">
             Go to Profile
           </NavLink>
         </div>

@@ -1,24 +1,32 @@
 import { useState } from "react";
 import { loginWithEmailAndPassword } from "../firebase";
 import { NavLink, useNavigate } from "react-router-dom";
+import { signInWithGoogle } from "../firebase";
 
 const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-    // Handle submit button
-    const handleLogin = async (event) => {
-      event.preventDefault();
-      try {
-        const response = await loginWithEmailAndPassword(email, password);
-        console.log(response);
-        navigate("/home"); // Change this to your desired route after login
-      } catch (error) {
-        console.log(error);
-      }
-    };
+  // Handle submit button
+  const handleLogin = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await loginWithEmailAndPassword(email, password);
+      console.log(response);
+      navigate("/home"); // Change this to your desired route after login
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
+   // Handle google button
+   const handleSocialLogin = async () => {
+    const user = await signInWithGoogle()
+    console.log(user);
+    navigate("/home");
+    
+  };
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="w-full max-w-md p-8 bg-white shadow-lg rounded-lg">
@@ -66,6 +74,14 @@ const Login = () => {
           >
             Sign In
           </button>
+          {/* google login */}
+          <button
+            type="submit"
+            className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            onClick={handleSocialLogin}
+          >
+            Login with Google
+          </button>
         </form>
         <p className="mt-6 text-center text-sm text-gray-500">
           Don't have an account?{" "}
@@ -74,6 +90,16 @@ const Login = () => {
             className="font-medium text-blue-600 hover:text-blue-500"
           >
             Register
+          </NavLink>
+        </p>
+        {/* user reset */}
+        <p className="mt-6 text-center text-sm text-gray-500">
+          Forgot Password?{" "}
+          <NavLink
+            to="/reset"
+            className="font-medium text-blue-600 hover:text-blue-500"
+          >
+            Reset your Password
           </NavLink>
         </p>
       </div>
