@@ -31,26 +31,34 @@ const Login = () => {
     }
   };
 
- // Handle Google login button
- const handleSocialLogin = async () => {
-  try {
-    const user = await signInWithGoogle();
-    console.log(user);
+  // Handle Google login button
+  const handleSocialLogin = async () => {
+    try {
+      const user = await signInWithGoogle();
+      console.log(user);
 
-    // SweetAlert2 for successful Google login
-    Swal.fire({
-      position: "top-center",
-      icon: "success",
-      title: "Google Login Successfully",
-      showConfirmButton: false,
-      timer: 1500,
-    });
+      // SweetAlert2 for successful Google login
+      Swal.fire({
+        position: "top-center",
+        icon: "success",
+        title: "Google Login Successfully",
+        showConfirmButton: false,
+        timer: 1500,
+      });
 
-    navigate("/home");
-  } catch (error) {
-    console.log(error);
-  }
-};
+      navigate("/home");
+    } catch (error) {
+      console.log(error);
+      // Handle errors during Google login
+      Swal.fire({
+        position: "top-center",
+        icon: "error",
+        title: "Google Login Failed",
+        text: error.message,
+        showConfirmButton: true,
+      });
+    }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">

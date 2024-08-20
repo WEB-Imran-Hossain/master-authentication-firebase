@@ -32,7 +32,7 @@ const Register = () => {
         position: "top-center",
         icon: "error",
         title: "Registration Faild!",
-        text: error.message.includes("already in use")
+        text: error.message.includes("This email is already registered")
           ? "An error occurred. Please try again."
           : "This email is already registered.",
         showConfirmButton: "OK",
