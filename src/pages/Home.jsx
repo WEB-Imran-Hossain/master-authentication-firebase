@@ -1,16 +1,38 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { NavLink, useNavigate } from "react-router-dom";
 import { auth } from "../firebase";
 import { signOut } from "firebase/auth";
+import Swal from "sweetalert2";
 
 const Home = () => {
   const navigate = useNavigate();
   const [user, loading, error] = useAuthState(auth);
 
+  useEffect(() => {
+    if (user) {
+      // SweetAlert2 for welcoming user
+      Swal.fire({
+        position: "top-center",
+        icon: "success",
+        title: `Welcome, ${user.email}!`,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
+  }, [user]);
+
   const handleLogout = () => {
     signOut(auth)
       .then(() => {
+        // SweetAlert2 for successful logout
+        Swal.fire({
+          position: "top-center",
+          icon: "success",
+          title: "Logout Successfully",
+          showConfirmButton: false,
+          timer: 1500,
+        });
         navigate("/login");
         console.log("Signed Out");
       })
