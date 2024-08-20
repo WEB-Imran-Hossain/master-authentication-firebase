@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-
+import Swal from "sweetalert2";
 import { registerWithEmailAndPassword } from "../firebase";
 
 const Register = () => {
@@ -14,9 +14,29 @@ const Register = () => {
     try {
       const user = await registerWithEmailAndPassword(email, password);
       console.log(user);
+
+      //registration sucessfully
+      Swal.fire({
+        position: "top-center",
+        icon: "success",
+        title: "Registration Successfully!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
       navigate("/login");
     } catch (error) {
       console.log(error);
+
+      //already register
+      Swal.fire({
+        position: "top-center",
+        icon: "error",
+        title: "Registration Faild!",
+        text: error.message.includes("already in use")
+          ? "An error occurred. Please try again."
+          : "This email is already registered.",
+        showConfirmButton: "OK",
+      });
     }
   };
 

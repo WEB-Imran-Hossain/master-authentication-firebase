@@ -2,6 +2,7 @@ import { useState } from "react";
 import { loginWithEmailAndPassword } from "../firebase";
 import { NavLink, useNavigate } from "react-router-dom";
 import { signInWithGoogle } from "../firebase";
+import Swal from "sweetalert2";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -14,19 +15,43 @@ const Login = () => {
     try {
       const response = await loginWithEmailAndPassword(email, password);
       console.log(response);
+
+      // SweetAlert2 for successful login
+      Swal.fire({
+        position: "top-center",
+        icon: "success",
+        title: "Login Successfully",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+
       navigate("/home"); // Change this to your desired route after login
     } catch (error) {
       console.log(error);
     }
   };
 
-   // Handle google button
-   const handleSocialLogin = async () => {
-    const user = await signInWithGoogle()
+ // Handle Google login button
+ const handleSocialLogin = async () => {
+  try {
+    const user = await signInWithGoogle();
     console.log(user);
+
+    // SweetAlert2 for successful Google login
+    Swal.fire({
+      position: "top-center",
+      icon: "success",
+      title: "Google Login Successfully",
+      showConfirmButton: false,
+      timer: 1500,
+    });
+
     navigate("/home");
-    
-  };
+  } catch (error) {
+    console.log(error);
+  }
+};
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="w-full max-w-md p-8 bg-white shadow-lg rounded-lg">
