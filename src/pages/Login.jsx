@@ -8,7 +8,32 @@ const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
+   // Password validation function
+const handlePassword = (event) => {
+  let new_pass = event.target.value;
+  setPassword(new_pass);
+
+  const lowerCase = /[a-z]/g;
+  const upperCase = /[A-Z]/g;
+  const numbers = /[0-9]/g;
+  const specialChar = /[!@#$%^&*(),.?":{}|<>]/g; // Regex for special characters
+
+  if (!new_pass.match(lowerCase)) {
+    setErrorMessage("Password should contain lowercase letters!");
+  } else if (!new_pass.match(upperCase)) {
+    setErrorMessage("Password should contain uppercase letters!");
+  } else if (!new_pass.match(numbers)) {
+    setErrorMessage("Password should contain numbers!");
+  } else if (!new_pass.match(specialChar)) {
+    setErrorMessage("Password should contain special characters!");
+  } else if (new_pass.length < 8) {
+    setErrorMessage("Password length should be at least 8 characters.");
+  } else {
+    setErrorMessage("");
+  }
+};
   // Handle submit button
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -95,11 +120,14 @@ const Login = () => {
               type="password"
               id="password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={handlePassword}
               required
               placeholder="Password"
               className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             />
+             {errorMessage && (
+              <div className="text-red-500 text-sm mt-1">{errorMessage}</div>
+            )}
           </div>
           <button
             type="submit"
